@@ -1,12 +1,11 @@
-const colors = ['rgb(186,85,211)', 'rgb(30,144,255)', 'rgb(50,205,50)'];
-const borderColor = 'rgb(47,79,79)';
-const triangleWidthRange = [50, 150];
-const triangleHeightMultiplier = 0.8;
-const trianglesAmount = 20;
-
-const getRandomNumberInRange = (min, max) => {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+import {
+    borderColor,
+    colors,
+    triangleHeightMultiplier,
+    trianglesAmount,
+    triangleWidthRange,
+} from './constants';
+import { getRandomNumberInRange } from './utils';
 
 const getCoordinates = (canvas) => {
     const maxTriangleWidth = triangleWidthRange[1];
@@ -49,4 +48,4 @@ const draw = () => {
     }
 };
 
-
+export default draw;
