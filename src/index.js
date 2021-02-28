@@ -8,5 +8,5 @@ export const rTree = RTree();
 prepareCanvas();
 draw();
 
-document.addEventListener('click', findTriangle);
+canvas.addEventListener('click', findTriangle);
 

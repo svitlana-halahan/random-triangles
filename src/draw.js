@@ -1,41 +1,25 @@
-import {
-    borderColor,
-    colors,
-    triangleHeightMultiplier,
-    trianglesAmount,
-    triangleWidthRange,
-} from './constants';
-import { getRandomNumberInRange } from './utils';
+import { borderColor, trianglesAmount, } from './constants';
+import { getColor, getCoordinates, getTriangleDimensions } from './utils';
 import { rTree } from '.';
-import { context, canvas } from './prepareCanvas';
-
-const getCoordinates = (canvas) => {
-    const maxTriangleWidth = triangleWidthRange[1];
-    const maxTriangleHeight = maxTriangleWidth * triangleHeightMultiplier;
-    const coordinates = {};
-    coordinates.x = getRandomNumberInRange(maxTriangleWidth/2, canvas.width - maxTriangleWidth/2);
-    coordinates.y = getRandomNumberInRange(0, canvas.height - maxTriangleHeight);
-    return coordinates;
-}
+import { canvas, context } from './prepareCanvas';
 
 const drawLines = (coordinates) => {
-    const triangleWidth = getRandomNumberInRange(...triangleWidthRange);
-    const triangleHeight = Math.floor(triangleWidth * triangleHeightMultiplier);
+    const { width, height } = getTriangleDimensions();
     context.strokeStyle = borderColor;
     context.moveTo(coordinates.x, coordinates.y);
-    context.lineTo(coordinates.x + triangleWidth/2, coordinates.y + triangleHeight);
-    context.lineTo(coordinates.x - triangleWidth/2, coordinates.y + triangleHeight);
+    context.lineTo(coordinates.x + width/2, coordinates.y + height);
+    context.lineTo(coordinates.x - width/2, coordinates.y + height);
     context.lineTo(coordinates.x, coordinates.y);
     context.stroke();
     return {
-        width: triangleWidth,
-        height: triangleHeight,
+        width,
+        height,
         coordinates,
     };
 }
 
 const makeTriangle = () => {
-    const color = colors[getRandomNumberInRange(0, colors.length - 1)];
+    const color = getColor();
     const coordinates = getCoordinates(canvas);
     context.fillStyle = color
     context.beginPath();
@@ -77,24 +61,29 @@ const isWithinTriangle = (triangle, point) => {
     }
 };
 
-const printResult = (triangles) => {
+const printResult = (triangles, time) => {
     const resultContainer = document.querySelector('.results');
+    let str = '';
     if (triangles.length === 0) {
-        resultContainer.textContent = 'No triangles detected!';
-        return;
+        str = 'No triangles detected!\n';
+    } else {
+        str = triangles.reduce((acc, curValue) => {
+            acc += `id: ${curValue.id}\n`;
+            return acc;
+        }, 'Detected triangles:\n');
     }
-    resultContainer.textContent = triangles.reduce((acc, curValue) => {
-        acc += `id: ${curValue.id}\n`;
-        return acc;
-    }, 'Detected triangles:\n');
+    str += `\n Execution time: ${time}`;
+    resultContainer.textContent = str;
 };
 
 export const findTriangle = (event) => {
+    const start = performance.now();
     const x = event.clientX;
     const y = event.clientY;
     const nodes = rTree.search({ x, y, w: 1, h: 1 });
     const triangles = nodes.filter((node) => isWithinTriangle(node, { x, y }));
-    printResult(triangles);
+    const end = performance.now();
+    printResult(triangles, end - start);
 };
 
 const draw = () => {
