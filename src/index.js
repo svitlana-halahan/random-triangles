@@ -1,8 +1,12 @@
-import RTree from 'rtree';
-import draw from './draw';
+import draw, { findTriangle } from './draw';
 import './styles.css';
+import RTree from 'rtree';
+import prepareCanvas from './prepareCanvas';
 
-const canvas = document.createElement('canvas');
-canvas.setAttribute('id', 'canvas');
-document.body.appendChild(canvas);
+export const rTree = RTree();
+
+prepareCanvas();
 draw();
+
+document.addEventListener('click', findTriangle);
+
