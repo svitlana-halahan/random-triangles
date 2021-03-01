@@ -1,5 +1,10 @@
 import { borderColor, trianglesAmount, } from './constants';
-import { getColor, getCoordinates, getTriangleDimensions } from './utils';
+import {
+    getColor,
+    getCoordinates,
+    getTriangleDimensions,
+    printResult,
+} from './utils';
 import { drawAreaHeight, drawAreaWidth, rTree } from '.';
 import { canvas, context } from './prepareCanvas';
 
@@ -60,29 +65,12 @@ const isWithinTriangle = (triangle, point) => {
     }
 };
 
-const printResult = (triangles, time) => {
-    const resultContainer = document.querySelector('.results');
-    let str = '';
-    if (triangles.length === 0) {
-        str = 'No triangles detected!\n';
-    } else {
-        str = triangles.reduce((acc, curValue) => {
-            acc += `id: ${curValue.id}\n`;
-            return acc;
-        }, 'Detected triangles:\n');
-    }
-    str += `\n Execution time: ${time}`;
-    resultContainer.textContent = str;
-};
-
 export const findTriangle = (event) => {
-    const start = performance.now();
     const x = event.clientX;
     const y = event.clientY;
     const nodes = rTree.search({ x, y, w: 1, h: 1 });
     const triangles = nodes.filter((node) => isWithinTriangle(node, { x, y }));
-    const end = performance.now();
-    printResult(triangles, end - start);
+    printResult(triangles);
 };
 
 const drawOnCanvas = () => {

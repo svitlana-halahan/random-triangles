@@ -1,6 +1,11 @@
 import { borderColor, trianglesAmount } from './constants';
 import { svg } from './prepareSvg';
-import { getColor, getCoordinates, getTriangleDimensions } from './utils';
+import {
+    getColor,
+    getCoordinates,
+    getTriangleDimensions,
+    printResult,
+} from './utils';
 import { drawAreaWidth, drawAreaHeight } from '.';
 
 const addPointToPolygon = (polygon, coordinates) => {
@@ -10,7 +15,7 @@ const addPointToPolygon = (polygon, coordinates) => {
     polygon.points.appendItem(point);
 };
 
-const makePolygon = () => {
+const makePolygon = (i) => {
     const coordinates = getCoordinates(drawAreaWidth, drawAreaHeight);
     const { width, height } = getTriangleDimensions();
     const color = getColor();
@@ -28,12 +33,15 @@ const makePolygon = () => {
         'style',
         `fill:${color};stroke:${borderColor};stroke-width:1`,
     );
+    polygon.addEventListener('click', (e) => {
+        printResult([{ id: i }]);
+    });
     svg.appendChild(polygon);
 };
 
 const drawInSvg = () => {
     for (let i = 0; i < trianglesAmount; i++) {
-        makePolygon();
+        makePolygon(i);
     }
 };
 

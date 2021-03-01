@@ -21,3 +21,17 @@ export const getTriangleDimensions = () => {
 };
 
 export const getColor = () => colors[getRandomNumberInRange(0, colors.length - 1)];
+
+export const printResult = (triangles, time) => {
+    const resultContainer = document.querySelector('.results');
+    let str = '';
+    if (triangles.length === 0) {
+        str = 'No triangles detected!\n';
+    } else {
+        str = triangles.reduce((acc, curValue) => {
+            acc += `id: ${curValue.id}\n`;
+            return acc;
+        }, 'Detected triangles:\n');
+    }
+    resultContainer.textContent = str;
+};
