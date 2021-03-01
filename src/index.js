@@ -4,6 +4,7 @@ import RTree from 'rtree';
 import prepareCanvas from './prepareCanvas';
 import prepareSvg from './prepareSvg';
 import drawInSvg from './drawInSvg';
+import { timerWrapper } from './utils';
 
 export const rTree = RTree();
 export const drawAreaWidth = document.documentElement.clientWidth - 300;
@@ -30,6 +31,6 @@ window.addEventListener('load', (event) => {
     const canvasBtn = document.getElementById('canvas_btn');
     const svgBtn = document.getElementById('svg_btn');
 
-    canvasBtn.addEventListener('click', showCanvas);
-    svgBtn.addEventListener('click', showSVG);
+    canvasBtn.addEventListener('click', timerWrapper(showCanvas));
+    svgBtn.addEventListener('click', timerWrapper(showSVG));
 });

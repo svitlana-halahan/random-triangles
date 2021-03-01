@@ -35,3 +35,11 @@ export const printResult = (triangles, time) => {
     }
     resultContainer.textContent = str;
 };
+
+export const timerWrapper = (f) => () => {
+    const start = performance.now();
+    f();
+    const end = performance.now();
+    const resultContainer = document.querySelector('.results');
+    resultContainer.textContent = `Execution time:\n${end - start}`;
+};
