@@ -8,13 +8,39 @@ body {
     position: absolute;
     top: 0;
     right: 0;
-    border-left: 3px solid indigo;
+    border-left: 3px solid #0688fa;
     text-align: center;
-    color: indigo;
+    color: black;
 }
 
 .results {
-    font-family: Arimo, Arial, sans-serif;
+    font-family: Arial;
     font-size: 18px;
     white-space: break-spaces;
+}
+
+.mode-select-container {
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: calc(100% - 250px);
+}
+
+.button {
+    margin: 10px;
+    background-color: #2dabf9;
+    border-radius: 3px;
+    border: none;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 20px;
+    height: 50px;
+    width: 150px;
+    outline: none;
+}
+
+.button:hover {
+    background-color: #0688fa;
 }

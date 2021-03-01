@@ -1,6 +1,6 @@
 import { borderColor, trianglesAmount, } from './constants';
 import { getColor, getCoordinates, getTriangleDimensions } from './utils';
-import { rTree } from '.';
+import { drawAreaHeight, drawAreaWidth, rTree } from '.';
 import { canvas, context } from './prepareCanvas';
 
 const drawLines = (coordinates) => {
@@ -20,7 +20,7 @@ const drawLines = (coordinates) => {
 
 const makeTriangle = () => {
     const color = getColor();
-    const coordinates = getCoordinates(canvas);
+    const coordinates = getCoordinates(drawAreaWidth, drawAreaHeight);
     context.fillStyle = color
     context.beginPath();
     const triangleInfo = drawLines(coordinates);
@@ -37,15 +37,14 @@ const addToRTree = (config, obj) => {
 };
 
 const isWithinTriangle = (triangle, point) => {
-    const { width, height, coordinates } = triangle;
-    if (point.y === coordinates.y) {
-        return point.x === coordinates.x;
+    const { width, height, coordinates: { x, y } } = triangle;
+
+    if (point.y === y) {
+        return point.x === x;
     }
 
     let curHeight = height;
     let curWidth = width;
-    let x = coordinates.x;
-    let y = coordinates.y;
 
     while(curHeight >= 1) {
         if (point.y === Math.floor(y + curHeight) || point.y === Math.ceil(y + curHeight)) {
@@ -86,11 +85,12 @@ export const findTriangle = (event) => {
     printResult(triangles, end - start);
 };
 
-const draw = () => {
+const drawOnCanvas = () => {
     for (let i = 0; i < trianglesAmount; i++) {
         const triangleInfo = makeTriangle();
         addToRTree(triangleInfo, { id: i, ...triangleInfo });
     }
+    canvas.addEventListener('click', findTriangle);
 };
 
-export default draw;
+export default drawOnCanvas;

@@ -3,12 +3,12 @@ import { colors, triangleHeightMultiplier, triangleWidthRange } from './constant
 export const getRandomNumberInRange = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-export const getCoordinates = (canvas) => {
+export const getCoordinates = (width, height) => {
     const maxTriangleWidth = triangleWidthRange[1];
     const maxTriangleHeight = maxTriangleWidth * triangleHeightMultiplier;
     const coordinates = {};
-    coordinates.x = getRandomNumberInRange(maxTriangleWidth / 2, canvas.width - maxTriangleWidth / 2);
-    coordinates.y = getRandomNumberInRange(0, canvas.height - maxTriangleHeight);
+    coordinates.x = getRandomNumberInRange(maxTriangleWidth / 2, width - maxTriangleWidth / 2);
+    coordinates.y = getRandomNumberInRange(0, height - maxTriangleHeight);
     return coordinates;
 }
 export const getTriangleDimensions = () => {
